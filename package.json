@@ -1,0 +1,23 @@
+{
+  "name": "native-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
+  "author": "Dmutre",
+  "license": "MIT",
+  "packageManager": "pnpm@10.6.2",
+  "dependencies": {
+    "find-my-way": "^7.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node-dev": "^2.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
