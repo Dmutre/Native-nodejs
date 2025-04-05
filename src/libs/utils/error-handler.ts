@@ -3,7 +3,7 @@ import { json } from './response'
 import { logger } from './logger'
 
 export const errorHandler = (res: ServerResponse, error: unknown) => {
-  const message = error instanceof Error ? error.message : 'Internal Server Error';
+  const message = error instanceof Error ? error.message : 'Internal Server Error'
 
   logger.error(message)
 
