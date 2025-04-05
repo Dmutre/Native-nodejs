@@ -9,6 +9,14 @@ import { saveMetadata, deleteMetadata } from '../libs/metadata/metadata.service'
 
 const s3Service = new S3Service()
 
+const allowedContentTypes = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+  'application/pdf'
+]
+
 const getKeyFromQuery = (req: IncomingMessage): string => {
   const { key } = getQueryParams(req)
   if (!key || Array.isArray(key)) {
@@ -25,6 +33,12 @@ const getBody = async (req: IncomingMessage): Promise<FileParameter> => {
   return body
 }
 
+const validateContentType = (contentType: string) => {
+  if (!allowedContentTypes.includes(contentType)) {
+    throw new Error(`Invalid content type: ${contentType}`)
+  }
+}
+
 const success = (res: ServerResponse, message: string, key: string) => {
   json(res, { message, key })
 }
@@ -36,6 +50,8 @@ export const uploadMedia = async (req: IncomingMessage, res: ServerResponse) => 
     if (!file || !filename || !contentType) {
       throw new Error('Missing required fields: file, filename, or contentType')
     }
+
+    validateContentType(contentType)
 
     const buffer = Buffer.from(file, 'base64')
 
@@ -73,6 +89,8 @@ export const updateMedia = async (req: IncomingMessage, res: ServerResponse) => 
     if (!file || !contentType || !filename) {
       throw new Error('Missing required fields: file, contentType, or filename for update')
     }
+
+    validateContentType(contentType)
 
     const buffer = Buffer.from(file, 'base64')
 
